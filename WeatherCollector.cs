@@ -4,13 +4,13 @@ using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WeatherCollector3.Models;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace WeatherCollector3
 {
     public static class WeatherCollector
     {
         [Function("WeatherCollector")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "<Pending>")]
         public static async Task RunAsync([TimerTrigger("*/10 * * * * *")] FunctionContext context)
         {
             var logger = context.GetLogger("WeatherCollector");
@@ -19,22 +19,24 @@ namespace WeatherCollector3
             HttpClient client = new();
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
             var uri = "https://api.met.no/weatherapi/locationforecast/2.0/compact";
-            var HomeParameters = "?altitude=8&lat=58.93&lon=5.69";
+            var parameters = "?altitude=8&lat=58.93&lon=5.69";
+            
+            // var StavangerParameters = "?altitude=2&lat=58.97&lon=5.73";
+            // var SandnesParameters = "?altitude=2&lat=58.85&lon=5.74";
             // var BergenParameters = "?altitude=650&lat=58.68&lon=7.05";
             // var KnabenParameters = "?altitude=100&lat=60.33&lon=5.29";
-            var contentReq = await client.GetAsync(uri + HomeParameters);
+            
+            var contentReq = await client.GetAsync(uri + parameters);
             var contentAsString = await contentReq.Content.ReadAsStringAsync();
             var contentObj = Newtonsoft.Json.JsonConvert.DeserializeObject<WeatherModel>(contentAsString);
             logger.LogInformation("Content object time:");
             logger.LogInformation(contentObj.Properties.Timeseries[0].Time.ToString());
-            // logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
+            logger.LogInformation("Cosmos DB");
 
             // Save to db
-            // var connectionString = "DefaultEndpointsProtocol=https;AccountName=weather-storage-dev;AccountKey=pQl3oJu6IuTcVOAks96nup7VtCjEIcmxxNAlHT2B4jDT4dBnrMF9mL02SBNTK6oBu1EgYQy90Tpb7jk1X2ZIpQ==;TableEndpoint=https://weather-storage-dev.table.cosmos.azure.com:443/;";
-            // CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
-            // CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            // await tableClient.GetTableReference("Test").CreateIfNotExistsAsync();
-            // await tableClient.GetTableReference("Test").ExecuteAsync(TableOperation.Insert(new TestEntity("Testing")));*/
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("ConnectionStringCosmosDB");
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            await tableClient.GetTableReference("Test").CreateIfNotExistsAsync();
         }
     }
 }
