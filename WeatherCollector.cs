@@ -28,6 +28,14 @@ namespace WeatherCollector3
             logger.LogInformation("Content object time:");
             logger.LogInformation(contentObj.Properties.Timeseries[0].Time.ToString());
             // logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
+
+            // Save to db
+
+          /*  var connectionString = "DefaultEndpointsProtocol=https;AccountName=weather-storage-dev;AccountKey=pQl3oJu6IuTcVOAks96nup7VtCjEIcmxxNAlHT2B4jDT4dBnrMF9mL02SBNTK6oBu1EgYQy90Tpb7jk1X2ZIpQ==;TableEndpoint=https://weather-storage-dev.table.cosmos.azure.com:443/;";
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            await tableClient.GetTableReference("Test").CreateIfNotExistsAsync();
+            await tableClient.GetTableReference("Test").ExecuteAsync(TableOperation.Insert(new TestEntity("Testing")));*/
         }
     }
 }
