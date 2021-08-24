@@ -10,7 +10,7 @@ namespace WeatherCollector3.Repositories.Entities
     {
         public WeatherEntity(string partitionKey)
         {
-            PartitionKey = partitionKey;
+            // PartitionKey = partitionKey;
         }
 
         public DateTime Time { get; set; }
