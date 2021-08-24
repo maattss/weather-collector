@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and deploy .NET Core Function App to Azure functions app
 on:
   push:
     branches:
@@ -30,8 +30,8 @@ jobs:
     - name: Publish
       run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}"
     - name: Deploy to Azure Function App
-      uses: Azure/functions-action@v1.3.1
+      uses: Azure/functions-action@v1
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        publish-profile: ${{ secrets.WeatherCollector_7d93 }}
+        publish-profile: ${{ secrets.WeatherCollector_2f88 }}
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
