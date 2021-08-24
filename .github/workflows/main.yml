@@ -1,4 +1,4 @@
-name: WeatherCollector
+name: Build and Deploy
 on:
   push:
     branches:
