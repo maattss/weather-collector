@@ -16,11 +16,13 @@
     public class Next1Hours
     {
         public Summary Summary { get; set; }
+        public ForecastDetails Details { get; set; }
     }
 
     public class Next6Hours
     {
         public Summary Summary { get; set; }
+        public ForecastDetails Details { get; set; }
     }
     public class Next12Hours
     {
@@ -30,5 +32,9 @@
     public class Summary
     {
         public string SymbolCode { get; set; }
+    }
+    public class ForecastDetails
+    {
+        public double PrecipitationAmount { get; set; }
     }
 }
