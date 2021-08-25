@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using WeatherCollector.Models;
 using Microsoft.Azure.Cosmos.Table;
+using WeatherCollector.Repositories;
 
 namespace WeatherCollector
 {
@@ -30,19 +31,13 @@ namespace WeatherCollector
             var contentReq = await client.GetAsync(uri + parameters);
             var contentAsString = await contentReq.Content.ReadAsStringAsync();
             var contentObj = Newtonsoft.Json.JsonConvert.DeserializeObject<WeatherModel>(contentAsString);
-            logger.LogInformation("Content object time:");
-            logger.LogInformation(contentObj.Properties.Timeseries[0].Time.ToString());
+            logger.LogInformation("Yr data updated at: " + contentObj.Properties.Meta.UpdatedAt.ToString());
 
             // Save to db
-            logger.LogInformation("Cosmos DB");
+            logger.LogInformation("Saving new data to db...");
             var connStr = Environment.GetEnvironmentVariable("ConnectionStringCosmosDB");
-            logger.LogInformation(connStr);
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connStr);
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            var table = tableClient.GetTableReference("Weather");
-            await table.CreateIfNotExistsAsync();
-            logger.LogInformation(table.Name);
-            //table.ExecuteAsync(TableOperation.Insert())
+            var weatherRepository = new WeatherRepository(connStr);
+            await weatherRepository.AddOrUpdateAsync(logger, contentObj, "home", true);
         }
     }
 }
