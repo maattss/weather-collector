@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WeatherCollector.Models;
-using Microsoft.Azure.Cosmos.Table;
 using WeatherCollector.Repositories;
 
 namespace WeatherCollector
