@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using WeatherCollector3.Interfaces;
+using WeatherCollector.Interfaces;
 
-namespace WeatherCollector3.Models
+namespace WeatherCollector.Models
 {
     public class WeatherModel : IWeather
     {

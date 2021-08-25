@@ -1,6 +1,6 @@
-﻿using WeatherCollector3.Models;
+﻿using WeatherCollector.Models;
 
-namespace WeatherCollector3.Interfaces
+namespace WeatherCollector.Interfaces
 {
     public interface IWeather
     {

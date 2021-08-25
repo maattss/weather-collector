@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WeatherCollector3.Models
+namespace WeatherCollector.Models
 {
     public class Timeseries
     {

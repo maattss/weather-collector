@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeatherCollector3.Repositories
+namespace WeatherCollector.Repositories
 {
     public class WeatherRepository
     {

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 
-namespace WeatherCollector3
+namespace WeatherCollector
 {
     public class Program
     {
