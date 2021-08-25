@@ -15,6 +15,7 @@ namespace WeatherCollector3
         {
             var logger = context.GetLogger("WeatherCollector");
             logger.LogInformation($"Weather Collector function executed at: {DateTime.Now}");
+            
             // Fetch current weather data from from Yr.no
             HttpClient client = new();
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
@@ -31,12 +32,14 @@ namespace WeatherCollector3
             var contentObj = Newtonsoft.Json.JsonConvert.DeserializeObject<WeatherModel>(contentAsString);
             logger.LogInformation("Content object time:");
             logger.LogInformation(contentObj.Properties.Timeseries[0].Time.ToString());
-            logger.LogInformation("Cosmos DB");
 
             // Save to db
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("ConnectionStringCosmosDB");
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            await tableClient.GetTableReference("Test").CreateIfNotExistsAsync();
+            logger.LogInformation("Cosmos DB");
+            var connStr = Environment.GetEnvironmentVariable("ConnectionStringCosmosDB");
+            logger.LogInformation(connStr);
+            // CloudStorageAccount storageAccount = CloudStorageAccount.Parse("ConnectionStringCosmosDB");
+            // CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            // await tableClient.GetTableReference("Test").CreateIfNotExistsAsync();
         }
     }
 }
