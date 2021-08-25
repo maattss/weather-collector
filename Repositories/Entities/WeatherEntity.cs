@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Azure.Cosmos.Table;
+using System;
 
 namespace WeatherCollector.Repositories.Entities
 {
-    public class WeatherEntity
+    public class WeatherEntity : TableEntity
     {
-        public WeatherEntity(string partitionKey)
+/*        public WeatherEntity(string partitionKey)
         {
             // PartitionKey = partitionKey;
-        }
+        }*/
 
         public DateTime Time { get; set; }
         public string Location { get; set; }
