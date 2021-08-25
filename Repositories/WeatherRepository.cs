@@ -23,6 +23,7 @@ namespace WeatherCollector.Repositories
             try
             {
                 var weatherEntityList = WeatherEntity.FromWeather(weather, partitionKey, earlyUpdate);
+                logger.LogInformation("From weather result", weatherEntityList);
                 var resultList = new List<WeatherEntity>();
                 foreach (var weatherEntity in weatherEntityList)
                 {
