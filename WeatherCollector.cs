@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WeatherCollector3.Models;
 using Microsoft.Azure.Cosmos.Table;
 
-namespace WeatherCollector3
+namespace WeatherCollector
 {
     public static class WeatherCollector
     {
@@ -37,9 +37,12 @@ namespace WeatherCollector3
             logger.LogInformation("Cosmos DB");
             var connStr = Environment.GetEnvironmentVariable("ConnectionStringCosmosDB");
             logger.LogInformation(connStr);
-            // CloudStorageAccount storageAccount = CloudStorageAccount.Parse("ConnectionStringCosmosDB");
-            // CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            // await tableClient.GetTableReference("Test").CreateIfNotExistsAsync();
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connStr);
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            var table = tableClient.GetTableReference("Weather");
+            await table.CreateIfNotExistsAsync();
+            logger.LogInformation(table.Name);
+            //table.ExecuteAsync(TableOperation.Insert())
         }
     }
 }
