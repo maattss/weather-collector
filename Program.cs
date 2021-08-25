@@ -1,7 +1,7 @@
-using Microsoft.Azure.Functions.Worker.Configuration;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Threading.Tasks;
+using WeatherCollector.Repositories;
+using WeatherCollector.Repositories.Interfaces;
 
 namespace WeatherCollector
 {
@@ -11,6 +11,10 @@ namespace WeatherCollector
         {
             var host = new HostBuilder()
                 .ConfigureFunctionsWorkerDefaults()
+                .ConfigureServices(s =>
+                {
+                    s.AddScoped<IWeatherRepository, WeatherRepository>();
+                })
                 .Build();
 
             host.Run();

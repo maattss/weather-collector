@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WeatherCollector.Interfaces;
 using WeatherCollector.Repositories.Entities;
+using WeatherCollector.Repositories.Interfaces;
 
 namespace WeatherCollector.Repositories
 {
-    public class WeatherRepository : BaseRepository<WeatherEntity>
+    public class WeatherRepository : BaseRepository<WeatherEntity>, IWeatherRepository
     {
         const string TABLE_NAME = "weather";
         private string connectionString;
@@ -17,7 +18,7 @@ namespace WeatherCollector.Repositories
         {
             this.connectionString = connectionString;
         }
-        public async Task<List<WeatherEntity>> AddOrUpdateAsync(ILogger logger, IWeather weather, string partitionKey, bool earlyUpdate)
+        public async Task<IEnumerable<WeatherEntity>> AddOrUpdateAsync(ILogger logger, IWeather weather, string partitionKey, bool earlyUpdate)
         {
             try
             {
