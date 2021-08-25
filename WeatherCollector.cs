@@ -3,7 +3,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WeatherCollector3.Models;
+using WeatherCollector.Models;
 using Microsoft.Azure.Cosmos.Table;
 
 namespace WeatherCollector
