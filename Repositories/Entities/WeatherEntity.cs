@@ -35,7 +35,9 @@ namespace WeatherCollector.Repositories.Entities
                 {
                     logger.LogInformation("Inside time span");
                     var instantWeatherDetails = currentWeather.Data.Instant.Details;
+                    logger.LogInformation("instant weather details", instantWeatherDetails);
                     var next1HoursWeatherDetails = currentWeather.Data.Next1Hours.Details;
+                    logger.LogInformation("next1HoursWeatherDeatils", next1HoursWeatherDetails);
                     logger.LogInformation("instantWeatherDetails" + instantWeatherDetails);
                     logger.LogInformation("next1HoursWeatherDetails" + next1HoursWeatherDetails);
                     weatherList.Add(new WeatherEntity()
