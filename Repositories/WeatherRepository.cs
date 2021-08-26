@@ -18,15 +18,12 @@ namespace WeatherCollector.Repositories
         {
             try
             {
-                logger.LogInformation("AddOrUpdateAsyncStart :)");
-                logger.LogInformation("Logger: " + " " + logger.ToString());
-                logger.LogInformation("Wind speed: " + " " + weather.Properties.Timeseries[0].Data.Instant.Details.WindSpeed);
-                logger.LogInformation("Partitionkey: " + " " + partitionKey);
                 var weatherEntityList = WeatherEntity.FromWeather(logger, weather, partitionKey);
-                logger.LogInformation("From weather result", weatherEntityList);
+                logger.LogInformation("WeatherEntityList count: ", weatherEntityList.Count);
                 var resultList = new List<WeatherEntity>();
                 foreach (var weatherEntity in weatherEntityList)
                 {
+                    logger.LogInformation("Writing entity to db: ", weatherEntity);
                     var result = await base.AddOrUpdateAsync(weatherEntity);
                     resultList.Add(result);
                 }
