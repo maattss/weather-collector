@@ -11,12 +11,11 @@ namespace WeatherCollector
         {
             var host = new HostBuilder()
                 .ConfigureFunctionsWorkerDefaults()
-                .ConfigureServices(s =>
-                {
-                    s.AddScoped<IWeatherRepository, WeatherRepository>();
-                })
                 .Build();
-
+                // .ConfigureServices(s =>
+                // {
+                //    s.AddScoped<IWeatherRepository, WeatherRepository>();
+                // })
             host.Run();
         }
     }
