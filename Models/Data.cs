@@ -3,9 +3,9 @@
     public class Data
     {
         public Instant Instant { get; set; }
-        public Next1Hours Next1Hours { get; set; }
-        public Next6Hours Next6Hours { get; set; }
-        public Next12Hours Next12Hours { get; set; }    
+        public Next1Hours Next_1_Hours { get; set; }
+        public Next6Hours Next_6_Hours { get; set; }
+        public Next12Hours Next_12_Hours { get; set; }    
     }
 
     public class Instant
