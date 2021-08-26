@@ -33,6 +33,7 @@ namespace WeatherCollector.Repositories.Entities
                 logger.LogInformation("now" + now);
                 if (InsideTimeSpan(start, end, now))
                 {
+                    logger.LogInformation("Inside time span");
                     var instantWeatherDetails = currentWeather.Data.Instant.Details;
                     var next1HoursWeatherDetails = currentWeather.Data.Next1Hours.Details;
                     logger.LogInformation("instantWeatherDetails" + instantWeatherDetails);
@@ -55,6 +56,7 @@ namespace WeatherCollector.Repositories.Entities
                         UpdatedAt = DateTime.UtcNow,
                     });
                 }
+                logger.LogInformation("Not inside");
             }
             logger.LogInformation("FromWeather end");
             return weatherList;
