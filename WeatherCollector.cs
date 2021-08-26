@@ -32,6 +32,7 @@ namespace WeatherCollector
             var contentObj = Newtonsoft.Json.JsonConvert.DeserializeObject<WeatherModel>(contentAsString);
             logger.LogInformation("Yr data updated at: " + contentObj.Properties.Meta.UpdatedAt.ToString());
 
+
             // Save to db
             logger.LogInformation("Saving new data to db...");
             var connStr = Environment.GetEnvironmentVariable("ConnectionStringCosmosDB");

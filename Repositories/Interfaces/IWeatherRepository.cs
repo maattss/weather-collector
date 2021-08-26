@@ -11,7 +11,7 @@ namespace WeatherCollector.Repositories.Interfaces
 {
     interface IWeatherRepository
     {
-        Task<IEnumerable<WeatherEntity>> AddOrUpdateAsync(ILogger logger, IWeather weather, string partitionKey, bool earlyUpdate);
+        Task<IEnumerable<WeatherEntity>> AddOrUpdateAsync(ILogger logger, IWeather weather, string partitionKey);
         // Task<IWeather> GetWeatherAsync(ILogger logger, string rowKey, string partitionKey);
         // Task<IEnumerable<WeatherEntity>> GetAllWeather(ILogger logger, string rowKey);
     }

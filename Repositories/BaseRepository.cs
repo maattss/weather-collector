@@ -27,7 +27,7 @@ namespace WeatherCollector.Repositories
             {
                 Console.WriteLine(e.Message);
                 throw;
-            }
+            } 
         }
         public async Task<CloudTable> AddOrGetTableAsync()
         {
