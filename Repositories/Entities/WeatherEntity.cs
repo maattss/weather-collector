@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using WeatherCollector.Interfaces;
@@ -18,7 +19,8 @@ namespace WeatherCollector.Repositories.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        public static List<WeatherEntity> FromWeather(IWeather weather, string partitonKey, bool earlyUpdate) {
+        public static List<WeatherEntity> FromWeather(ILogger logger, IWeather weather, string partitonKey, bool earlyUpdate) {
+            logger.LogInformation("FromWeather start");
             var weatherList = new List<WeatherEntity>();
             var timeSeries = weather.Properties.Timeseries;
             TimeSpan start = earlyUpdate ? new TimeSpan(9, 0, 0) : new TimeSpan(21, 0, 0); // 09:00:00Z or 21:00:00Z
@@ -27,10 +29,14 @@ namespace WeatherCollector.Repositories.Entities
             {
                 var currentWeather = timeSeries[i];
                 var now = currentWeather.Time.TimeOfDay;
+                logger.LogInformation("currentWeather" + currentWeather);
+                logger.LogInformation("now" + now);
                 if (InsideTimeSpan(start, end, now))
                 {
                     var instantWeatherDetails = currentWeather.Data.Instant.Details;
                     var next1HoursWeatherDetails = currentWeather.Data.Next1Hours.Details;
+                    logger.LogInformation("instantWeatherDetails" + instantWeatherDetails);
+                    logger.LogInformation("next1HoursWeatherDetails" + next1HoursWeatherDetails);
                     weatherList.Add(new WeatherEntity()
                     {
                         PartitionKey = partitonKey,
@@ -50,6 +56,7 @@ namespace WeatherCollector.Repositories.Entities
                     });
                 }
             }
+            logger.LogInformation("FromWeather end");
             return weatherList;
         }
 

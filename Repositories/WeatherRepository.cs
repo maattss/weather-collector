@@ -20,10 +20,10 @@ namespace WeatherCollector.Repositories
             {
                 logger.LogInformation("AddOrUpdateAsyncStart :)" + "\n" + weather + "\n" + partitionKey + "\n" + earlyUpdate);
                 logger.LogInformation("Logger: " + "\n" + logger.ToString());
-                logger.LogInformation("Weather: " + "\n" + weather.Properties.Timeseries[0].ToString());
+                logger.LogInformation("Weather: " + "\n" + weather.Properties.Timeseries[0].Data.Instant.Details.WindFromDirection);
                 logger.LogInformation("Partitionkey: " + "\n" + partitionKey);
                 logger.LogInformation("earlyUpdate: " + "\n" + earlyUpdate);
-                var weatherEntityList = WeatherEntity.FromWeather(weather, partitionKey, earlyUpdate);
+                var weatherEntityList = WeatherEntity.FromWeather(logger, weather, partitionKey, earlyUpdate);
                 logger.LogInformation("From weather result", weatherEntityList);
                 var resultList = new List<WeatherEntity>();
                 foreach (var weatherEntity in weatherEntityList)
