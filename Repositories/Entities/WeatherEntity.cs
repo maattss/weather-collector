@@ -19,27 +19,39 @@ namespace WeatherCollector.Repositories.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        public static List<WeatherEntity> FromWeather(ILogger logger, IWeather weather, string partitonKey, bool earlyUpdate) {
-            logger.LogInformation("FromWeather start");
+        public static List<WeatherEntity> FromWeather(ILogger logger, IWeather weather, string partitonKey) {
             var weatherList = new List<WeatherEntity>();
             var timeSeries = weather.Properties.Timeseries;
-            TimeSpan start = earlyUpdate ? new TimeSpan(9, 0, 0) : new TimeSpan(21, 0, 0); // 09:00:00Z or 21:00:00Z
-            TimeSpan end = earlyUpdate ? new TimeSpan(20, 59, 59) : new TimeSpan(08, 59, 59); // 20:59:59Z or 08:59:59Z
+
+            bool nightUpdate = false;
+            bool dayUpdate = true; // TODO: Should be set to false!
+  
+            /*if (DateTime.Now.Hour == 0)
+            {
+                nightUpdate = true;
+            } 
+            else if (DateTime.Now.Hour == 12)
+            {
+                dayUpdate = true;
+            }*/
+
             for (var i = 0; i < timeSeries.Count; i++)
             {
                 var currentWeather = timeSeries[i];
                 var now = currentWeather.Time.TimeOfDay;
-                logger.LogInformation("currentWeather" + currentWeather);
-                logger.LogInformation("now" + now);
-                if (InsideTimeSpan(start, end, now))
+                var dateIsToday = currentWeather.Time.Date == DateTime.Today.Date;
+                var dateIsTomorrow = currentWeather.Time.Date == DateTime.Today.AddDays(1).Date;
+                var addEntityToList = false;
+
+                if (nightUpdate && dateIsToday && InsideTimeSpan(new TimeSpan(0, 30, 0), new TimeSpan(12, 30, 0), now)) addEntityToList = true;
+                if (dayUpdate && dateIsToday && InsideTimeSpan(new TimeSpan(12, 30, 0), new TimeSpan(23, 30, 0), now)) addEntityToList = true;
+                if (dayUpdate && dateIsTomorrow && currentWeather.Time.Hour == 0) addEntityToList = true;
+
+                if (addEntityToList)
                 {
-                    logger.LogInformation("Inside time span");
                     var instantWeatherDetails = currentWeather.Data.Instant.Details;
-                    logger.LogInformation("instant weather details" + instantWeatherDetails);
-                    
-                    // Failing here
                     var next1HoursWeatherDetails = currentWeather.Data.Next_1_Hours.Details;
-                    logger.LogInformation("next1HoursWeatherDeatils" + next1HoursWeatherDetails);
+
                     weatherList.Add(new WeatherEntity()
                     {
                         PartitionKey = partitonKey,
@@ -58,31 +70,17 @@ namespace WeatherCollector.Repositories.Entities
                         UpdatedAt = DateTime.UtcNow,
                     });
                 }
-                logger.LogInformation("Not inside");
             }
-            logger.LogInformation("FromWeather end");
+            logger.LogInformation("heyhey");
             return weatherList;
+
         }
 
         private static bool InsideTimeSpan(TimeSpan start, TimeSpan end, TimeSpan now)
         {
-            if (start <= end)
+            if ((now > start) && (now < end))
             {
-                // start and stop times are in the same day
-                if (now >= start && now <= end)
-                {
-                    // current time is between start and stop
-                    return true;
-                }
-            }
-            else
-            {
-                // start and stop times are in different days
-                if (now >= start || now <= end)
-                {
-                    // current time is between start and stop
-                    return true;
-                }
+                return true;
             }
             return false;
         }

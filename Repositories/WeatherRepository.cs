@@ -14,16 +14,15 @@ namespace WeatherCollector.Repositories
     {
         const string TABLE_NAME = "weather";
         public WeatherRepository(string connectionString) : base(TABLE_NAME, connectionString) { }
-        public async Task<IEnumerable<WeatherEntity>> AddOrUpdateAsync(ILogger logger, IWeather weather, string partitionKey, bool earlyUpdate)
+        public async Task<IEnumerable<WeatherEntity>> AddOrUpdateAsync(ILogger logger, IWeather weather, string partitionKey)
         {
             try
             {
-                logger.LogInformation("AddOrUpdateAsyncStart :)" + "\n" + weather + "\n" + partitionKey + "\n" + earlyUpdate);
+                logger.LogInformation("AddOrUpdateAsyncStart :)");
                 logger.LogInformation("Logger: " + " " + logger.ToString());
                 logger.LogInformation("Wind speed: " + " " + weather.Properties.Timeseries[0].Data.Instant.Details.WindSpeed);
                 logger.LogInformation("Partitionkey: " + " " + partitionKey);
-                logger.LogInformation("earlyUpdate: " + " " + earlyUpdate);
-                var weatherEntityList = WeatherEntity.FromWeather(logger, weather, partitionKey, earlyUpdate);
+                var weatherEntityList = WeatherEntity.FromWeather(logger, weather, partitionKey);
                 logger.LogInformation("From weather result", weatherEntityList);
                 var resultList = new List<WeatherEntity>();
                 foreach (var weatherEntity in weatherEntityList)
