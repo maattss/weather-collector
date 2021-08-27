@@ -21,12 +21,13 @@ namespace WeatherCollector.Repositories
                 var weatherEntityList = WeatherEntity.FromWeather(logger, weather, partitionKey);
                 logger.LogInformation("WeatherEntityList count: ", weatherEntityList.Count);
                 var resultList = new List<WeatherEntity>();
-                foreach (var weatherEntity in weatherEntityList)
+                for (var i = 0; i < weatherEntityList.Count; i++)
                 {
-                    logger.LogInformation("Writing entity to db: ", weatherEntity);
-                    var result = await base.AddOrUpdateAsync(weatherEntity);
+                    logger.LogInformation("Writing entity to db: ", weatherEntityList[i]);
+                    var result = await base.AddOrUpdateAsync(weatherEntityList[i]);
                     resultList.Add(result);
                 }
+
                 logger.LogInformation("New data succesfully saved to db!");
                 return resultList;
 
