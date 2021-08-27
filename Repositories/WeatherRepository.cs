@@ -34,7 +34,7 @@ namespace WeatherCollector.Repositories
             } 
             catch (Exception e)
             {
-                logger.LogError("Error: ", e.Message);
+                logger.LogError("Error: ", e);
                 logger.LogError("Stacktrace: ", e.StackTrace);
                 throw;
             }
