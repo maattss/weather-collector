@@ -71,7 +71,6 @@ namespace WeatherCollector.Repositories.Entities
                     });
                 }
             }
-            logger.LogInformation("heyhey");
             return weatherList;
 
         }
