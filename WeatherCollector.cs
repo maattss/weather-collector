@@ -11,7 +11,7 @@ namespace WeatherCollector
     public static class WeatherCollector
     {
         [Function("WeatherCollector")]
-        public static async Task RunAsync([TimerTrigger("*/10 * * * * *")] FunctionContext context)
+        public static async Task RunAsync([TimerTrigger("*/30 * * * * *")] FunctionContext context)
         {
             var logger = context.GetLogger("WeatherCollector");
             logger.LogInformation($"Weather Collector function executed at: {DateTime.Now}");
