@@ -29,7 +29,7 @@ namespace WeatherCollector.Repositories
                     logger.LogInformation("Rain: " + weatherEntityList[i].RainNext1hrs.ToString());
                     logger.LogInformation("Humidity: " + weatherEntityList[i].Humidity.ToString());
                     logger.LogInformation("Pressure: " + weatherEntityList[i].Pressure.ToString());
-                    logger.LogInformation("Pressure: " + weatherEntityList[i].CloudFraction.ToString());
+                    logger.LogInformation("Cloud fraction: " + weatherEntityList[i].CloudFraction.ToString());
                     var result = await base.AddOrUpdateAsync(weatherEntityList[i]);
                     resultList.Add(result);
                     logger.LogInformation("Sucessfully written to db!");

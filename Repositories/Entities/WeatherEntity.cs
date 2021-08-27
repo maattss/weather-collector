@@ -56,7 +56,7 @@ namespace WeatherCollector.Repositories.Entities
                     logger.LogInformation("Rain: " + next1HoursWeatherDetails.PrecipitationAmount.ToString());
                     logger.LogInformation("Humidity: " + instantWeatherDetails.RelativeHumidity.ToString());
                     logger.LogInformation("Pressure: " + instantWeatherDetails.AirPressureAtSeaLevel.ToString());
-                    logger.LogInformation("Cloud fraction: " + instantWeatherDetails.CloudAreaFraction.ToString();
+                    logger.LogInformation("Cloud fraction: " + instantWeatherDetails.CloudAreaFraction.ToString());
                     weatherList.Add(new WeatherEntity()
                     {
                         PartitionKey = partitonKey,
