@@ -19,13 +19,20 @@ namespace WeatherCollector.Repositories
             try
             {
                 var weatherEntityList = WeatherEntity.FromWeather(logger, weather, partitionKey);
-                logger.LogInformation("WeatherEntityList count: ", weatherEntityList.Count);
+                logger.LogInformation("WeatherEntityList count: " + weatherEntityList.Count);
                 var resultList = new List<WeatherEntity>();
                 for (var i = 0; i < weatherEntityList.Count; i++)
                 {
-                    logger.LogInformation("Writing entity to db: ", weatherEntityList[i]);
+                    logger.LogInformation("Writing new entity to db... ID: ", weatherEntityList[i].RowKey.ToString());
+                    logger.LogInformation("Wind speed: " + weatherEntityList[i].WindSpeed.ToString());
+                    logger.LogInformation("Wind direction: " + weatherEntityList[i].WindDirection.ToString());
+                    logger.LogInformation("Rain: " + weatherEntityList[i].RainNext1hrs.ToString());
+                    logger.LogInformation("Humidity: " + weatherEntityList[i].Humidity.ToString());
+                    logger.LogInformation("Pressure: " + weatherEntityList[i].Pressure.ToString());
+                    logger.LogInformation("Pressure: " + weatherEntityList[i].CloudFraction.ToString());
                     var result = await base.AddOrUpdateAsync(weatherEntityList[i]);
                     resultList.Add(result);
+                    logger.LogInformation("Sucessfully written to db!");
                 }
 
                 logger.LogInformation("New data succesfully saved to db!");

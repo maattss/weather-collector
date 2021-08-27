@@ -16,8 +16,6 @@ namespace WeatherCollector.Repositories.Entities
         public double CloudFraction { get; set; }
         public double Humidity { get; set; }
         public double Pressure { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
 
         public static List<WeatherEntity> FromWeather(ILogger logger, IWeather weather, string partitonKey) {
             var weatherList = new List<WeatherEntity>();
@@ -52,6 +50,13 @@ namespace WeatherCollector.Repositories.Entities
                     var instantWeatherDetails = currentWeather.Data.Instant.Details;
                     var next1HoursWeatherDetails = currentWeather.Data.Next_1_Hours.Details;
 
+                    logger.LogInformation("Converting weather from model to entity...");
+                    logger.LogInformation("Wind speed: " + instantWeatherDetails.WindSpeed.ToString());
+                    logger.LogInformation("Wind direction: " + instantWeatherDetails.WindFromDirection.ToString());
+                    logger.LogInformation("Rain: " + next1HoursWeatherDetails.PrecipitationAmount.ToString());
+                    logger.LogInformation("Humidity: " + instantWeatherDetails.RelativeHumidity.ToString());
+                    logger.LogInformation("Pressure: " + instantWeatherDetails.AirPressureAtSeaLevel.ToString());
+                    logger.LogInformation("Cloud fraction: " + instantWeatherDetails.CloudAreaFraction.ToString();
                     weatherList.Add(new WeatherEntity()
                     {
                         PartitionKey = partitonKey,
@@ -65,10 +70,8 @@ namespace WeatherCollector.Repositories.Entities
                         CloudFraction = instantWeatherDetails.CloudAreaFraction,
                         Humidity = instantWeatherDetails.RelativeHumidity,
                         Pressure = instantWeatherDetails.AirPressureAtSeaLevel,
-
-                        CreatedAt = DateTime.UtcNow,
-                        UpdatedAt = DateTime.UtcNow,
                     });
+                    logger.LogInformation("Successfully converted from model to entity...");
                 }
             }
             return weatherList;
