@@ -10,6 +10,7 @@ namespace WeatherCollector
     public static class WeatherCollector
     {
         [Function("WeatherCollector")]
+        [TableOutput("Weather")]
         public static async Task RunAsync([TimerTrigger("*/30 * * * * *")] FunctionContext context)
         {
             var logger = context.GetLogger("WeatherCollector");
@@ -31,8 +32,8 @@ namespace WeatherCollector
             var contentObj = Newtonsoft.Json.JsonConvert.DeserializeObject<WeatherModel>(contentAsString);
             logger.LogInformation("Yr data updated at: " + contentObj.Properties.Meta.UpdatedAt.ToString());
 
-            // Save to db
-            logger.LogInformation("Saving new data to db...");
+            // Save to db, return new weather object
+            
         }
     }
 }
