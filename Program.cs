@@ -12,10 +12,6 @@ namespace WeatherCollector
             var host = new HostBuilder()
                 .ConfigureFunctionsWorkerDefaults()
                 .Build();
-                // .ConfigureServices(s =>
-                // {
-                //    s.AddScoped<IWeatherRepository, WeatherRepository>();
-                // })
             host.Run();
         }
     }
