@@ -35,9 +35,6 @@ namespace WeatherCollector
 
             // Save to db
             logger.LogInformation("Saving new data to db...");
-            var connStr = Environment.GetEnvironmentVariable("ConnectionStringCosmosDB");
-            var weatherRepository = new WeatherRepository(connStr);
-            await weatherRepository.AddOrUpdateAsync(logger, contentObj, "home");
         }
     }
 }
