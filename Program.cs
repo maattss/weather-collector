@@ -1,7 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WeatherCollector.Repositories;
-using WeatherCollector.Repositories.Interfaces;
 
 namespace WeatherCollector
 {
